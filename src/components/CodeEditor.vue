@@ -24,6 +24,8 @@ onMounted(async () => {
       declare global {
         const container: HTMLElement;
         const PICCO: typeof picco;
+        const data: any;
+        const pictures: { name: string; url: string }[];
       }`,
       'ts:filename/globals.d.ts',
     )
@@ -36,6 +38,7 @@ onMounted(async () => {
       theme: 'vs',
       // theme: 'light', // 编辑器主题
       automaticLayout: true, // 自动调整布局
+      minimap: { enabled: false }, // 关闭缩略图
     })
 
     // 监听代码变化
@@ -50,7 +53,25 @@ onMounted(async () => {
   }
 })
 
-const emit = defineEmits(['code-change'])
+function getCode() {
+  return editor?.getValue() || ''
+}
+
+function setCode(code: string) {
+  editor?.setValue(code)
+  emit('code-change', code)
+}
+
+type EmitType = {
+  (event: 'code-change', code: string): void
+}
+
+const emit = defineEmits<EmitType>()
+
+defineExpose({
+  getCode,
+  setCode,
+})
 </script>
 
 <style scoped>

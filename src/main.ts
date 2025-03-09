@@ -16,19 +16,4 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
 
-// app.component('vue-markdown', vueMarkdown)
-
 app.mount('#app');
-
-// const loadScript = (src: string) => {
-//   return new Promise((resolve, reject) => {
-//     const script = document.createElement('script')
-//     script.type = 'module'
-//     script.src = src
-//     script.onload = resolve
-//     script.onerror = reject
-//     document.head.appendChild(script)
-//   })
-// }
-
-// loadScript('grammar.mjs')

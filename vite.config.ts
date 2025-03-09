@@ -20,25 +20,27 @@ const monacoEditorPlugin = isObjectWithDefaultFunction(monacoEditorPluginModule)
 
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    vue({
-      include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
-    }),
-    vueDevTools(),
-    monacoEditorPlugin({}),
-    markdown({}),
-    copy({
-      targets: [
-        {src: 'src/grammar/grammar.mjs', dest: 'dist'},
-      ],
-      hook: 'writeBundle',
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [
+      vue({
+        include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
+      }),
+      vueDevTools(),
+      monacoEditorPlugin({}),
+      markdown({}),
+      copy({
+        targets: [
+          { src: 'src/grammar/grammar.mjs', dest: 'dist' },
+        ],
+        hook: 'writeBundle',
+      }),
+    ],
+    base: mode === 'development' ? '/' : '/PICCO/',
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      },
     },
-  },
-
+  }
 })

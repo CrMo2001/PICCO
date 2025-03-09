@@ -65,7 +65,7 @@ import DataTable from './DataTable.vue'
 import { ref } from 'vue'
 import PaPa from 'papaparse'
 
-type DataTable = {
+export type DataTable = {
   name: string
   columns: string[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,16 +81,17 @@ const uploadDataPanelVisible = ref(false)
 // const uploadRef = ref<UploadInstance>()
 const fileInput = ref<HTMLInputElement>()
 
-const handleTabRemove = (name: string) => {
+function handleTabRemove(name: string) {
   const tags = dataTables.value
   const index = tags.findIndex((tag) => tag.name === name)
   tags.splice(index, 1)
   if (tags.length !== 0) {
     activeName.value = tags[Math.max(0, index - 1)].name
   }
+  emit('data-table-change')
 }
 
-const handleTabChange = (name: string) => {
+function handleTabChange(name: string) {
   if (name == ADD_DATA) {
     // prevent default tab change
     activeName.value = dataTables.value[0].name
@@ -98,12 +99,11 @@ const handleTabChange = (name: string) => {
   }
 }
 
-const uploadData = () => {
+function uploadData() {
   fileInput.value?.click()
 }
 
-
-const handleFileChange = () => {
+function handleFileChange() {
   const target = fileInput.value
   if (!target) return
   const files = target.files
@@ -121,7 +121,7 @@ const handleFileChange = () => {
   target.value = ''
 }
 
-const addDataTable = (name: string, content: string) => {
+function addDataTable(name: string, content: string) {
   // 解析 csv 文件
   const result = PaPa.parse(content, { header: true })
 
@@ -135,13 +135,63 @@ const addDataTable = (name: string, content: string) => {
     }
     name = `${name}(${i})`
   }
+  // 将数字列转换为数字
+  for (const column of columns) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const isNumber = tableData.every((row: any) => {
+      // console.log(row[column])
+      return !isNaN(Number(row[column]))
+    })
+    // console.log(isNumber)
+    if (isNumber) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      tableData.forEach((row: any) => {
+        row[column] = Number(row[column])
+      })
+    }
+  }
+  // console.log('add data table:', name, columns, tableData)
   dataTables.value.push({
     name,
     columns,
     content: tableData,
   })
   activeName.value = name
+  emit('data-table-change')
 }
+
+function getData() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dataObject = {} as any
+  dataTables.value.forEach((table) => {
+    dataObject[table.name] = table.content
+  })
+  return dataObject
+}
+
+function getDataTables() {
+  return dataTables.value
+}
+
+function setDataTables(newDataTables: DataTable[]) {
+  dataTables.value = newDataTables
+  if (dataTables.value.length > 0) {
+    activeName.value = dataTables.value[0].name
+  }
+  emit('data-table-change')
+}
+
+type EmitType = {
+  (event: 'data-table-change'): void
+}
+
+const emit = defineEmits<EmitType>()
+
+defineExpose({
+  getData,
+  getDataTables,
+  setDataTables,
+})
 </script>
 
 <style scoped>

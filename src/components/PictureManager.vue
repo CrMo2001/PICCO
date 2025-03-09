@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-type PictureData = {
+export type PictureData = {
   name: string
   url: string
   image: HTMLImageElement
@@ -51,18 +51,19 @@ type PictureData = {
 const pictures = ref([] as PictureData[])
 const fileInput = ref<HTMLInputElement>()
 
-const uploadPicture = () => {
+function uploadPicture() {
   fileInput.value?.click()
 }
 
-const removeImage = (name: string) => {
+function removeImage(name: string) {
   const index = pictures.value.findIndex((item) => item.name === name)
   if (index !== -1) {
     pictures.value.splice(index, 1)
   }
+  emit('picture-change')
 }
 
-const handleFileChange = () => {
+function handleFileChange() {
   if (!fileInput.value) {
     return
   }
@@ -76,7 +77,6 @@ const handleFileChange = () => {
     reader.onload = (e) => {
       const url = e.target?.result as string
       const image = new Image()
-      image.src = url
       image.onload = () => {
         pictures.value.push({
           name: file.name,
@@ -85,11 +85,55 @@ const handleFileChange = () => {
           width: image.width,
           height: image.height,
         })
+        emit('picture-change')
       }
+      image.src = url
     }
     reader.readAsDataURL(file)
   }
 }
+
+function getPictures() {
+  const result = pictures.value.map((item) => {
+    return {
+      name: item.name,
+      url: item.url,
+    }
+  })
+  return result
+}
+
+function setPictures(data: { name: string; url: string }[]) {
+  pictures.value = []
+  data.forEach((item) => {
+    const image = new Image()
+    const result = {
+      name: item.name,
+      url: item.url,
+      image,
+      width: image.width,
+      height: image.height,
+    }
+    image.onload = () => {
+      result.width = image.width
+      result.height = image.height
+      pictures.value.push(result)
+      emit('picture-change')
+    }
+    image.src = item.url
+  })
+}
+
+type EmitType = {
+  (event: 'picture-change'): void
+}
+
+const emit = defineEmits<EmitType>()
+
+defineExpose({
+  getPictures,
+  setPictures,
+})
 </script>
 
 <style scoped>

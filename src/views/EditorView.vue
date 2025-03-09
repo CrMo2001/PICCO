@@ -2,10 +2,20 @@
   <div class="editor-container">
     <div class="tool-bar">
       <div class="editor-title">PICCO Editor</div>
-      <el-button class="tool-bar-button" @click="handleLoad">Load</el-button>
-      <el-button class="tool-bar-button" @click="handleSave">Save</el-button>
+      <el-button class="tool-bar-button" @click="handleOpen">Open</el-button>
+      <el-dropdown>
+        <el-button class="tool-bar-button">
+          Export<el-icon class="el-icon--right"><ArrowDown /></el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="handleExportWorkspace">Workspace</el-dropdown-item>
+            <el-dropdown-item @click="handleExportSVG">as SVG</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <el-button class="tool-bar-button" @click="handleRun">Run</el-button>
-      <el-button class="tool-bar-button" @click="handleBack">Back</el-button>
+      <el-button class="tool-bar-button" @click="handleBack">Quit</el-button>
     </div>
     <div class="editor-page">
       <!-- 左侧容器 -->
@@ -18,13 +28,13 @@
         <!-- 上下拖动条 -->
         <div class="horizontal-drag-bar" @mousedown="startVerticalDrag"></div>
 
-        <!-- 左下角：日志显示 -->
+        <!-- 左下角：素材管理与日志显示 -->
         <!-- <div class="assets-section"> -->
         <div
           class="assets-section"
           :style="{ height: pageHeight - graphicsHeight - 8 - 48 + 'px' }"
         >
-          <AssetsView ref="assetsView" />
+          <AssetsView ref="assetsView" @assets-change="handleAssetsChange" />
         </div>
       </div>
 
@@ -34,10 +44,41 @@
       <!-- 右侧：代码编辑器 -->
       <div class="editor-section" :style="{ width: pageWidth - leftWidth - 8 + 'px' }">
         <!-- <div class="editor-section"> -->
-        <CodeEditor @code-change="handleCodeChange" />
+        <CodeEditor @code-change="handleCodeChange" ref="codeEditor" />
       </div>
     </div>
   </div>
+  <el-dialog v-model="openDialogVisible" title="Open" width="65%">
+    <div style="padding: 10px">Open Examples</div>
+    <div class="example-card-container">
+      <el-card
+        v-for="example in exampleList"
+        :key="example.name"
+        shadow="hover"
+        class="example-card"
+        body-class="example-card-body"
+        @click="openWorkspaceByUrl(example.workspace)"
+      >
+        <img class="example-image" :src="example.image" />
+        <div>{{ example.name }}</div>
+      </el-card>
+    </div>
+
+    <el-divider></el-divider>
+    <div style="padding: 10px">Or Open From File</div>
+
+    <el-upload
+      ref="workspaceUpload"
+      multiple
+      :on-change="handleFileChange"
+      accept=".json"
+      auto-upload="false"
+      drag
+    >
+      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+      <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+    </el-upload>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -47,31 +88,32 @@ import GraphicsView from '../components/GraphicsView.vue'
 import AssetsView from '../components/AssetsView.vue'
 import CodeEditor from '../components/CodeEditor.vue'
 import { useRouter } from 'vue-router'
+import { ArrowDown } from '@element-plus/icons-vue'
+import type { DataTable } from '@/components/DataManager.vue'
+import { examplesInfo, exampleWorkspaces } from '@/examples'
+import type { ElUpload, UploadFile } from 'element-plus'
 
 const graphicsView = ref<InstanceType<typeof GraphicsView> | null>(null)
 const assetsView = ref<InstanceType<typeof AssetsView> | null>(null)
+const codeEditor = ref<InstanceType<typeof CodeEditor> | null>(null)
+const workspaceUpload = ref<InstanceType<typeof ElUpload> | null>(null)
+const openDialogVisible = ref(false)
+
+const router = useRouter()
+
+const exampleList = ref(examplesInfo)
 
 // 页面高度
 const pageHeight = ref(window.innerHeight)
 const pageWidth = ref(window.innerWidth)
 
-// 左侧容器宽度（初始为页面高度的 60%）
-const leftWidth = ref(pageWidth.value * 0.6)
+// 左侧容器宽度（初始为页面高度的 50%）
+const leftWidth = ref(pageWidth.value * 0.5)
 const isHorizontalDragging = ref(false)
 
-// 图形显示区域高度（初始为页面高度的 60%）
+// 图形显示区域高度（初始为页面高度的 50%）
 const graphicsHeight = ref(pageHeight.value * 0.5)
 const isVerticalDragging = ref(false)
-
-// 处理代码变化
-function handleCodeChange(code: string) {
-  if (graphicsView.value) {
-    graphicsView.value.renderGraphics(code) // 更新图形
-  }
-  if (assetsView.value) {
-    // logView.value.addLog(`代码更新: ${code}`) // 添加日志
-  }
-}
 
 // 开始水平拖动（调整宽度）
 function startHorizontalDrag() {
@@ -121,19 +163,137 @@ function handleResize() {
   pageWidth.value = window.innerWidth
 
   // 限制左侧容器宽度和图形显示区域高度
-  leftWidth.value = Math.min(leftWidth.value, pageWidth.value - 100)
-  graphicsHeight.value = Math.min(graphicsHeight.value, pageHeight.value - 100)
+  // leftWidth.value = Math.min(leftWidth.value, pageWidth.value - 100)
+  // graphicsHeight.value = Math.min(graphicsHeight.value, pageHeight.value - 100)
 }
 
-function handleLoad() {}
+function handleOpen() {
+  openDialogVisible.value = true
+  return
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = '.json'
+  input.onchange = (event) => {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const content = e.target?.result as string
+        const workspace = JSON.parse(content)
+        openWorkspace(workspace)
+      }
+      reader.readAsText(file)
+    }
+  }
+  input.click()
+}
 
-function handleSave() {}
+function handleFileChange(uploadFile: UploadFile) {
+  if (uploadFile.raw === undefined) {
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    const content = e.target?.result as string
+    const workspace = JSON.parse(content)
+    openWorkspace(workspace)
+  }
+  reader.readAsText(uploadFile.raw)
+  openDialogVisible.value = false
 
-function handleRun() {}
+  if (workspaceUpload.value) {
+    workspaceUpload.value.clearFiles()
+  }
+}
+
+function openWorkspaceByUrl(url: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  exampleWorkspaces[url]().then((workspace: any) => {
+    openWorkspace(workspace)
+  })
+  openDialogVisible.value = false
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function openWorkspace(workspace: any) {
+  if (assetsView.value === null || codeEditor.value === null) {
+    return
+  }
+  const assets = workspace.assets as {
+    dataTables: DataTable[]
+    pictures: { name: string; url: string }[]
+  }
+  assetsView.value.setAssets(assets.dataTables, assets.pictures)
+  codeEditor.value.setCode(workspace.code)
+}
+
+function handleExportSVG() {
+  const element = document.getElementById('graphics-view')
+  const svgElement = element?.querySelector('svg')
+  if (svgElement) {
+    const svg = svgElement.outerHTML
+    const blob = new Blob([svg], { type: 'image/svg+xml' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'graphics.svg'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+}
+
+function handleExportWorkspace() {
+  if (assetsView.value === null || codeEditor.value === null) {
+    return
+  }
+  const assets = assetsView.value.getWorkSpace()
+  const code = codeEditor.value.getCode()
+  const workspace = {
+    assets,
+    code,
+  }
+  const json = JSON.stringify(workspace, null, 2)
+  const blob = new Blob([json], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'workspace.json'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function handleRun() {
+  RunCode()
+}
 
 function handleBack() {
-  const router = useRouter()
+  console.log(router)
   router.push('/')
+}
+
+function RunCode() {
+  if (assetsView.value === null || codeEditor.value === null) {
+    return
+  }
+  if (graphicsView.value === null) {
+    return
+  }
+  const assets = assetsView.value.getAssets()
+  const code = codeEditor.value.getCode()
+  graphicsView.value.runCode(code, assets)
+}
+
+function proposeRun() {
+  RunCode()
+}
+
+function handleAssetsChange() {
+  proposeRun()
+}
+
+function handleCodeChange() {
+  proposeRun()
 }
 
 onMounted(() => {
@@ -173,6 +333,10 @@ onUnmounted(() => {
 .tool-bar-button {
   margin: 0;
   border-radius: 0;
+}
+
+.tool-bar-button-right {
+  margin-left: auto;
 }
 
 .editor-page {
@@ -216,5 +380,35 @@ onUnmounted(() => {
   min-width: 400px;
   flex: 1;
   border: 1px solid #ccc;
+}
+
+.example-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* padding: 10px; */
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.example-card {
+  width: calc(25% - 20px);
+  cursor: pointer;
+}
+
+.example-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+</style>
+<style>
+.example-card-body {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>

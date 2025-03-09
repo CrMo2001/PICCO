@@ -1,0 +1,54 @@
+{
+  "assets": {
+    "dataTables": [
+      {
+        "name": "data.csv",
+        "columns": [
+          "category",
+          "amount"
+        ],
+        "content": [
+          {
+            "category": "A",
+            "amount": 70
+          },
+          {
+            "category": "B",
+            "amount": 40
+          },
+          {
+            "category": "C",
+            "amount": 40
+          },
+          {
+            "category": "D",
+            "amount": 30
+          },
+          {
+            "category": "E",
+            "amount": 50
+          },
+          {
+            "category": "F",
+            "amount": 60
+          }
+        ]
+      }
+    ],
+    "pictures": [
+      {
+        "name": "middle.png",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAAE6CAYAAAAV73zXAAAACXBIWXMAABcRAAAXEQHKJvM/AAADD0lEQVR4nO3Suw0CUQwAwccnJqENJGqgdUQDlEAHkJAeQiImIrg9ZiqwvV49z7tpLMf1dtlvxjQOC9rptJ3BEL90HEt6uY/1LKbgK5ECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAoQKUCkAJECRAp4R3r8+xFmbYz7C1RTDELIiv05AAAAAElFTkSuQmCC"
+      },
+      {
+        "name": "bottom.png",
+        "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAAA1CAYAAABCzsW2AAAACXBIWXMAABcRAAAXEQHKJvM/AAABxklEQVR4nO3Ty03EQBBF0YtZsWFDEiSBBJkQB9mQCiQAAYBEBrBhO8iLQXw8nna7q/tVu24Er3RUJ58P5zs66u3xoqdzxm4G4F5gSDTdM/A0nF193AaUZCPQ9eXd6/v4SQSUXN9A47Bhvy6gZPoFxE8kAkqhf0D8RSKgWjYJxBQSAdWig0AcQiKgajYLxBwSAVWjo0AcQyKgLEsCIgWJgLIoGYhUJAKqZIuAWIJEQJVoMRBLkQioNWUBkYNEQOWUDUQuEgG1pFVArEEioFJaDcRaJAJqriJAlEAioKYqBkQpJALqZ0WBKIlEQGEBRGkktg1lAoQFEtuEMgPCColtQZkCYYnENqDMgbBGom+oKkDUQKJPqGpA1EKiL6iqQNREog+o6kDURsI3VBMgWiDhE6oZEK2Q8AXVFIiWSPiAag5EayS0oSSAUEBCE0oGCBUktKCkgFBCQgNKDgg1JNpCSQKhiEQbKFkgVJGoCyUNhDISdaDkgVBHwhbKBRAekLCBcgOEFyTKQrkCwhMSZaDcAeENiXVQLoHwiEQelFsgvCKxDMo1EJ6RSINyD4R3JOahugCiBySmoboBoheksT3UcLp76QkI4AtDVSxjfFU0AwAAAABJRU5ErkJggg=="
+      },
+      {
+        "name": "top.png",
+        "url": "data:image/png;base64,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"
+      }
+    ]
+  },
+  "code": "const pencilTop = new PICCO.Picture({ url: \"top.png\", y: 600 })\r\n    .encode(\"y\", \"amount\", { anchor: 1 });\r\nconst pencilMiddle = new PICCO.Picture({ url: \"middle.png\" })\r\nconst pencilBottom = new PICCO.Picture({ url: \"bottom.png\", width: 100 });\r\n\r\nconst pencil = PICCO.combine([pencilTop, pencilMiddle, pencilBottom])\r\n    .equal(pencilTop, pencilBottom, { channel: \"width\" })\r\n    .equal(pencilMiddle, pencilBottom, { channel: \"width\" })\r\n    .align(pencilMiddle, pencilTop, \"y\", { sourceAnchor: \"top\", targetAnchor: \"bottom\" })\r\n    .align(pencilMiddle, pencilBottom, \"y\", { sourceAnchor: \"bottom\", targetAnchor: \"top\" })\r\n    .encode(\"x\", \"category\");\r\n\r\nconst collection = PICCO.repeat(pencil);\r\n\r\nconst xAxis = new PICCO.Axis(\"x\", { position: -10 });\r\nconst yAxis = new PICCO.Axis(\"y\", { position: -100 });\r\n\r\nconst chart = PICCO.combine([collection, xAxis, yAxis])\r\n\r\nPICCO.show([\r\n    [chart, data[\"data.csv\"]]\r\n], container, { pictures })"
+}

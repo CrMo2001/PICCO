@@ -30,9 +30,9 @@ const router = useRouter();
 // 导航链接数据
 const links = ref([
   { name: 'Home', path: '/' },
-  { name: 'Gallery', path: '/gallery' },
+  // { name: 'Gallery', path: '/gallery' },
   { name: 'Documentation', path: '/documentation' },
-  { name: 'About', path: '/about' },
+  // { name: 'About', path: '/about' },
 ])
 
 // Editor 按钮点击事件
