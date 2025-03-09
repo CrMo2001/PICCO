@@ -1,0 +1,1 @@
+import{d as e,c as o,o as t}from"./index-CMeSIyLD.js";const s={class:"common-layout"},p=e({__name:"HomeView",props:{example:{}},setup(a){return(c,n)=>(t(),o("div",s,"this is the home view"))}});export{p as default};
