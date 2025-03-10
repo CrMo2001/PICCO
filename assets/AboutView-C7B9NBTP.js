@@ -1,0 +1,1 @@
+import{d as o,c as t,a,o as n}from"./index-DIIB83Nn.js";const l=o({__name:"AboutView",props:{example:{}},setup(r){return(s,e)=>(n(),t("div",null,e[0]||(e[0]=[a("h1",null,"about",-1)])))}});export{l as default};
