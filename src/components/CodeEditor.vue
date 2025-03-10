@@ -30,7 +30,20 @@ onMounted(async () => {
       'ts:filename/globals.d.ts',
     )
 
-    console.log(monaco.languages.typescript.typescriptDefaults.getExtraLibs())
+    // console.log(monaco.languages.typescript.typescriptDefaults.getExtraLibs())
+    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+      target: monaco.languages.typescript.ScriptTarget.ESNext,
+      module: monaco.languages.typescript.ModuleKind.ESNext,
+      allowNonTsExtensions: true,
+      allowJs: true,
+      checkJs: true,
+      noEmit: true,
+      // typeRoots: ['node_modules/@types'],
+    })
+
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      diagnosticCodesToIgnore: [1375]
+    })
 
     editor = monaco.editor.create(editorContainer.value, {
       value: '', // 初始代码

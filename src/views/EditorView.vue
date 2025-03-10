@@ -22,7 +22,7 @@
       <div class="left-container" :style="{ width: leftWidth + 'px' }">
         <!-- 左上角：图形显示 -->
         <div class="graphics-section" :style="{ height: graphicsHeight + 'px' }">
-          <GraphicsView ref="graphicsView" />
+          <GraphicsView ref="graphicsView" @compileFinish="handleCompileFinish" />
         </div>
 
         <!-- 上下拖动条 -->
@@ -284,8 +284,22 @@ function RunCode() {
   graphicsView.value.runCode(code, assets)
 }
 
+let timer: NodeJS.Timeout | null = null
 function proposeRun() {
-  RunCode()
+  if (timer !== null) {
+    clearTimeout(timer)
+  }
+  timer = setTimeout(() => {
+    RunCode()
+  }, 500)
+}
+
+function handleCompileFinish(message: string, success: boolean) {
+  if (success) {
+    assetsView.value?.setLog('Run successfully', 'success')
+  } else {
+    assetsView.value?.setLog(message, 'danger')
+  }
 }
 
 function handleAssetsChange() {

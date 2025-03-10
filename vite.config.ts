@@ -30,10 +30,16 @@ export default defineConfig(({ mode }) => {
       monacoEditorPlugin({}),
       markdown({}),
       copy({
+        // targets: [
+        //   { src: 'src/grammar/grammar.mjs', dest: 'dist' },
+        // ],
         targets: [
-          { src: 'src/grammar/grammar.mjs', dest: 'dist' },
+          {
+            src: 'dist/index.html',
+            dest: 'dist/404.html',
+          },
         ],
-        hook: 'writeBundle',
+        // hook: 'writeBundle',
       }),
     ],
     base: mode === 'development' ? '/' : '/PICCO/',

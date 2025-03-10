@@ -63,10 +63,10 @@ const label = new Text({ fontSize: 30, textAnchor: 'middle', fontWeight: 'bold' 
 我们将现金堆叠 `cashStack` 和标签 `label` 组合在一起，并设置它们之间的约束关系。
 
 ```typescript
-const glyph = combine([cashStack, label]).connect(label, cashStack, { anchor: [0.5, 1] }) // 将标签连接到现金堆叠的顶部中心
+const glyph = union([cashStack, label]).connect(label, cashStack, { anchor: [0.5, 1] }) // 将标签连接到现金堆叠的顶部中心
 ```
 
-- `combine`：将现金堆叠和标签合并为一个整体。
+- `union`：将现金堆叠和标签合并为一个整体。
 - `connect`：将标签连接到现金堆叠的顶部中心位置。
 
 ## 6. 重复图形
@@ -94,12 +94,12 @@ const xAxis = new Axis('x', { showTickLine: false }) // 不显示刻度线
 最后，我们将图形和 x 轴组合在一起，并使用 `show` 函数将其渲染到页面上。
 
 ```typescript
-const chart = combine([collection, xAxis])
+const chart = union([collection, xAxis])
 
 show([[chart, data]], document.body, {})
 ```
 
-- `combine`：将图形和 x 轴合并为一个整体。
+- `union`：将图形和 x 轴合并为一个整体。
 - `show`：将图形渲染到 `document.body` 中。
 
 ## 9. 最终效果

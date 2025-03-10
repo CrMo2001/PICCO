@@ -6,6 +6,11 @@
     <el-tab-pane label="Picture" name="picture" class="tab-pane">
       <PictureManager ref="pictureManager" @picture-change="emit('assets-change')" />
     </el-tab-pane>
+    <el-tab-pane label="Log" name="log" class="tab-pane">
+      <el-text :type='logType' size="large" class="log-message">
+        {{ log }}
+      </el-text>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -17,6 +22,9 @@ import { ref } from 'vue'
 const activeName = ref('data')
 const dataManager = ref<InstanceType<typeof DataManager> | null>(null)
 const pictureManager = ref<InstanceType<typeof PictureManager> | null>(null)
+
+const log = ref('')
+const logType = ref('info')
 
 type EmitType = {
   (event: 'assets-change'): void
@@ -53,10 +61,17 @@ function setAssets(dataTables: DataTable[], pictures: { name: string; url: strin
   }
 }
 
+function setLog(message: string, type: 'info' | 'success' | 'warning' | 'danger') {
+  // window.alert(message)
+  log.value = message
+  logType.value = type
+}
+
 defineExpose({
   getAssets,
   getWorkSpace,
   setAssets,
+  setLog,
 })
 </script>
 
@@ -67,5 +82,9 @@ defineExpose({
 
 .tab-pane {
   height: 100%;
+}
+
+.log-message {
+  padding: 20px;
 }
 </style>

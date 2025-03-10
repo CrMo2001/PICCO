@@ -15,13 +15,33 @@ async function runCode(
 ) {
   try {
     const container = document.getElementById('graphics-view')
-    const func = new Function('PICCO', 'container', 'data', 'pictures', code)
+    // const func = new Function('PICCO', 'container', 'data', 'pictures', code)
+    // construct an async function
+    const func = new Function(`return (async (PICCO, container, data, pictures) => {${code}})`)()
     func(PICCO, container, assets.data, assets.pictures)
-    console.log('finished running code')
-  } catch (error) {
+      .then(() => {
+        emit('compileFinish', 'success', true)
+      })
+      .catch((error: Error) => {
+        console.error('代码执行错误:', error)
+        emit('compileFinish', error.toString(), false)
+      })
+    // console.log('finished running code')
+  } catch (error: unknown) {
     console.error('代码执行错误:', error)
+    if (error instanceof Error) {
+      emit('compileFinish', error.toString(), false)
+    } else {
+      emit('compileFinish', JSON.stringify(error), false)
+    }
   }
 }
+
+type EmitType = {
+  (event: 'compileFinish', message: string, success: boolean): void
+}
+
+const emit = defineEmits<EmitType>()
 
 defineExpose({ runCode })
 </script>

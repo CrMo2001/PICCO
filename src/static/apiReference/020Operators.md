@@ -2,7 +2,7 @@
 
 operator 对 Graphic Objects 进行操作，并且返回新的 Graphic Object
 
-## combine(objects): Glyph
+## union(objects): Glyph
 
 将多个图形对象合并为一个整体，并返回合并后的图形对象。
 
@@ -16,21 +16,53 @@ operator 对 Graphic Objects 进行操作，并且返回新的 Graphic Object
 
 返回合并后的图形对象，类型为 `Glyph`。你可以在该对象上设置被合并元素之间的约束关系。
 
-## intersect(object, mask, ignore): Glyph
+## intersect(object1, object2, ignore): Glyph
 
-对两个图形对象进行相交运算，并返回相交后的结果。相交后的结果颜色取决于第一个对象
+对两个图形对象进行相交运算，并返回相交后的结果。相交后的结果颜色取决于第二个对象
 
 ### Parameters
 
 | parameter | type            | description                                                                           |
 | --------- | --------------- | ------------------------------------------------------------------------------------- |
-| object    | GraphicObject   | 参与相交运算的第一个元素                                                              |
-| mask      | GraphicObject   | 参与相交运算的第二个元素                                                              |
+| object1   | GraphicObject   | 参与相交运算的第一个元素                                                              |
+| object2   | GraphicObject   | 参与相交运算的第二个元素                                                              |
 | ignore?   | GraphicObject[] | 相交运算中忽略的元素。被忽略的元素将直接叠加在最终结果上，不参与相交运算。默认值为 [] |
 
 ### returns
 
 返回相交运算后的结果对象，类型为 `Glyph`。你可以在该对象上设置参与运算元素之间的约束关系。
+
+## substract(object1, object2, ignore): Glyph
+
+让第一个图形减去第二个图形的形状
+
+### Parameters
+
+| parameter | type            | description                                                                           |
+| --------- | --------------- | ------------------------------------------------------------------------------------- |
+| object1   | GraphicObject   | 被做减法的元素                                                                        |
+| object2   | GraphicObject   | 用于减法的元素                                                                        |
+| ignore?   | GraphicObject[] | 减法运算中忽略的元素。被忽略的元素将直接叠加在最终结果上，不参与减法运算。默认值为 [] |
+
+### returns
+
+返回减法运算后的结果对象，类型为 `Glyph`。你可以在该对象上设置参与运算元素之间的约束关系。
+
+## xor(object1, object2, ignore): Glyph
+
+对两个图形对象进行异或运算，并返回运算后的结果。a xor b = (a - b) + (b - a)，即保留两个元素不相交的部分
+
+### Parameters
+
+| parameter | type            | description                                                                           |
+| --------- | --------------- | ------------------------------------------------------------------------------------- |
+| object1   | GraphicObject   | 参与异或运算的第一个元素                                                              |
+| object2   | GraphicObject   | 参与异或运算的第二个元素                                                              |
+| ignore?   | GraphicObject[] | 异或运算中忽略的元素。被忽略的元素将直接叠加在最终结果上，不参与异或运算。默认值为 [] |
+
+### returns
+
+返回异或运算后的结果对象，类型为 `Glyph`。你可以在该对象上设置参与运算元素之间的约束关系。
 
 ## repeat(object, key?): Collection
 

@@ -1,6 +1,6 @@
 # Constraint
 
-约束（Constraint）用于定义由 `combine` 或 `intersect` 操作生成的 `Glyph` 中，参与运算的图形对象（`GraphicObject`）之间的相对位置、尺寸或旋转关系。通过约束，可以实现图形之间的对齐、连接、等值或旋转等操作。以下是四种约束的详细说明：
+约束（Constraint）用于定义由 `union` 或 `intersect` 操作生成的 `Glyph` 中，参与运算的图形对象（`GraphicObject`）之间的相对位置、尺寸或旋转关系。通过约束，可以实现图形之间的对齐、连接、等值或旋转等操作。以下是四种约束的详细说明：
 
 ## Glyph.connect(source, target, {sourceAnchor?, targetAnchor?, anchor?, offset?})
 

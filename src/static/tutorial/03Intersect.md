@@ -53,12 +53,12 @@ const g1 = intersect(water, shape)
 我们将相交后的图形 `g1` 与人体边框 `border` 组合在一起，并设置它们之间的约束关系。
 
 ```typescript
-const g2 = combine([g1, border])
+const g2 = union([g1, border])
   .align(border, g1, 'x') // 边框与 g1 在 x 方向对齐
   .encode('x', 'category') // 将 x 坐标与数据的 category 字段绑定
 ```
 
-- `combine`：将 `g1` 和 `border` 合并为一个整体。
+- `union`：将 `g1` 和 `border` 合并为一个整体。
 - `align`：将 `border` 与 `g1` 在 x 方向对齐。
 - `encode`：将图形的 `x` 坐标与数据的 `category` 字段绑定。
 
