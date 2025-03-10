@@ -6,7 +6,7 @@
         v-for="item in pictures"
         :key="item.name"
         shadow="never"
-        body-style="text-align: center"
+        body-class="picture-item-card-body"
       >
         <template #header>{{ item.name }}</template>
         <img class="picture-thumbnail" :src="item.url" alt="item.name" width="30px" />
@@ -198,5 +198,23 @@ defineExpose({
   float: right;
   position: relative;
   top: 2px;
+}
+</style>
+<style lang="scss">
+$pattern-size: 6px;
+$pattern-offset: 3px;
+$pattern-color: #f3f3f3;
+$pattern-color: #ddd;
+
+.picture-item-card-body {
+  /* background-color: #ddd; */
+  text-align: center;
+  background-image:
+    linear-gradient(45deg, $pattern-color 25%, transparent 25%, transparent 75%, $pattern-color 75%),
+    linear-gradient(45deg, $pattern-color 25%, transparent 25%, transparent 75%, $pattern-color 75%); 
+  background-position:
+    0 0,
+    $pattern-offset $pattern-offset;
+  background-size: $pattern-size $pattern-size; /* 棋盘格单元大小 */
 }
 </style>

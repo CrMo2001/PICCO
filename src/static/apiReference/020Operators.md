@@ -86,7 +86,7 @@ operator 对 Graphic Objects 进行操作，并且返回新的 Graphic Object
 
 返回分割产生的分块。
 
-## link(object, {filter?, linkByData?, inEdge?, outEdge?, type?, shape?, curveness?, overlay?, ...style?}): LinkResult
+## link(object, {filter?, linkByData?, endEdge?, startEdge?, type?, shape?, curveness?, overlay?, ...style?}): LinkResult
 
 在原有图形的基础上添加连接，并和原有图形合并之后返回。
 
@@ -95,7 +95,7 @@ operator 对 Graphic Objects 进行操作，并且返回新的 Graphic Object
 - 顺次连接：linkId 相同的元素会被分成一组，并依次连接。
 - 成对连接：需要提供独立的数据，按照数据中 "source_id" 和 "target_id" 两列的值，寻找 linkId 匹配的元素进行连接。
 
-在对两个元素进行连接时，可以指定两个元素的哪两条边之间连接。对于link的起始元素，link从该元素出发，这条边被称为 outEdge；对于link的结束元素，link从这条边进入，这条边被称为 inEdge
+在对两个元素进行连接时，可以指定两个元素的哪两条边之间连接。对于link的起始元素，link从该元素出发，这条边被称为 startEdge；对于link的结束元素，link从这条边进入，这条边被称为 endEdge
 
 ### Parameters
 
@@ -104,8 +104,8 @@ operator 对 Graphic Objects 进行操作，并且返回新的 Graphic Object
 | object      | GraphicObject           | 被添加连接的对象                                                                        |
 | filter?     | string \| GraphicObject | 如果设置，则只会对指定类型的图形对象进行连接。默认为 "\*"，表示对所有对象进行连接       |
 | linkByData? | boolean                 | 如果设置为 true，则按照独立的数据选择连接的起始和结束元素；否则将顺次连接所有指定的元素 |
-| inEdge?     | string                  | link 在起始位置连接到元素的哪一条边                                                     |
-| outEdge?    | string                  | link 在结束位置连接到元素的哪一条边                                                     |
+| endEdge?    | string                  | link 在起始位置连接到元素的哪一条边                                                     |
+| startEdge?  | string                  | link 在结束位置连接到元素的哪一条边                                                     |
 | type?       | string                  | link 的类型，可选 "link" 或 "band" ，默认为 "band"                                      |
 | shape?      | string                  | link 的形状，可选 "straight", "arc" 或 "bezier"，默认为 "straight"选                    |
 | curveness?  | number                  | 当shape 为 "bezier" 时，曲线的弯曲程度，默认为30                                        |

@@ -1,0 +1,72 @@
+{
+  "assets": {
+    "dataTables": [
+      {
+        "name": "data.csv",
+        "columns": [
+          "country",
+          "consumption",
+          "consumption2"
+        ],
+        "content": [
+          {
+            "country": "KOREA",
+            "consumption": 14.8,
+            "consumption2": 19.8
+          },
+          {
+            "country": "AUSTRALIA",
+            "consumption": 10,
+            "consumption2": 15
+          },
+          {
+            "country": "NEW ZEALAND",
+            "consumption": 9.6,
+            "consumption2": 14.6
+          },
+          {
+            "country": "JAPAN",
+            "consumption": 8,
+            "consumption2": 13
+          },
+          {
+            "country": "CHINA",
+            "consumption": 5.9,
+            "consumption2": 10.9
+          },
+          {
+            "country": "INDIA",
+            "consumption": 2.6,
+            "consumption2": 7.6
+          },
+          {
+            "country": "SINGAPORE",
+            "consumption": 1.6,
+            "consumption2": 6.6
+          },
+          {
+            "country": "MALAYSIA",
+            "consumption": 0.8,
+            "consumption2": 5.8
+          },
+          {
+            "country": "INDONESIA",
+            "consumption": 0.6,
+            "consumption2": 5.6
+          }
+        ]
+      }
+    ],
+    "pictures": [
+      {
+        "name": "bottle_border.png",
+        "url": "data:image/png;base64,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"
+      },
+      {
+        "name": "bottle_shape.png",
+        "url": "data:image/png;base64,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"
+      }
+    ]
+  },
+  "code": "const rect = new PICCO.Rect({ height: 220, fill: \"rgb(97,16,48)\", stroke: \"white\", strokeWidth: 1 })\r\nconst division = PICCO.divide(rect, \"y\", { sizeEncode: \"consumption2\" });\r\n\r\nconst amountLabel = new PICCO.Text({ fill: \"white\", fontSize: 10, textAnchor: \"middle\" })\r\n    .encode(\"content\", \"consumption\");\r\nconst countryLabel = new PICCO.Text({ fill: \"black\", fontSize: 8, fontWeight: \"bold\" })\r\n    .encode(\"content\", \"country\");\r\n\r\nPICCO.union([division, amountLabel, countryLabel])\r\n    .connect(amountLabel, division, { anchor: \"middle\", offset: [0, -4] })\r\n    .connect(countryLabel, division, { anchor: [\"right\", \"middle\"], offset: [10, -4] })\r\n\r\nconst bottleShape = new PICCO.Picture({ url: \"bottle_shape.png\" })\r\nconst bottle = PICCO.intersect(bottleShape, rect, [countryLabel])\r\n    .align(rect, bottleShape, \"y\", { anchor: \"bottom\" })\r\n    .equal(rect, bottleShape, { channel: \"width\" })\r\n\r\nconst bottleBorder = new PICCO.Picture({ url: \"bottle_border.png\" })\r\nconst bottleWithBorder = PICCO.union([bottle, bottleBorder])\r\n\r\nconst title = new PICCO.Text({ fill: \"white\", fontSize: 50, y: 650, fontWeight: \"bold\", content: \"Alcohol\" })\r\nconst subtitle = new PICCO.Text({ fontSize: 24, fontWeight: \"bold\", y: 620, content: \"Consumption <br> per capita (liters)\" })\r\n\r\nPICCO.show([\r\n    [bottleWithBorder, data[\"data.csv\"]],\r\n    title,\r\n    subtitle\r\n], container, { background: \"rgb(236,174,169)\", padding: [100, 200, 50, 50], pictures })"
+}

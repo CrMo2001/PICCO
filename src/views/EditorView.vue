@@ -405,7 +405,7 @@ onUnmounted(() => {
 </style>
 <style>
 .example-card-body {
-  height: 100px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;

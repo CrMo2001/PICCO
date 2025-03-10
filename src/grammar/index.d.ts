@@ -220,8 +220,10 @@ declare module 'PICCO' {
     rotate(source: GraphicObject, target: GraphicObject, offset?: number): this
   }
 
-  const combine: (objects: GraphicObject[]) => Glyph
-  const intersect: (object: GraphicObject, mask: GraphicObject, ignore?: GraphicObject[]) => Glyph
+  const union: (objects: GraphicObject[]) => Glyph
+  const intersect: (object1: GraphicObject, object2: GraphicObject, ignore?: GraphicObject[]) => Glyph
+  const substract: (object1: GraphicObject, object2: GraphicObject, ignore?: GraphicObject[]) => Glyph
+  const xor: (object1: GraphicObject, object2: GraphicObject, ignore?: GraphicObject[]) => Glyph
   const repeat: (object: GraphicObject, key?: string) => Collection
   const duplicate: (object: GraphicObject, number: number | string) => Collection
   const divide: (
@@ -242,8 +244,8 @@ declare module 'PICCO' {
     {
       filter,
       linkByData,
-      inEdge,
-      outEdge,
+      endEdge,
+      startEdge,
       type,
       shape,
       curveness,
@@ -252,8 +254,8 @@ declare module 'PICCO' {
     }?: {
       filter?: string | GraphicObject
       linkByData?: boolean
-      inEdge?: string
-      outEdge?: string
+      endEdge?: string
+      startEdge?: string
       type?: 'band' | 'line'
       shape?: 'straight' | 'bezier' | 'arc'
       curveness?: number
@@ -266,7 +268,7 @@ declare module 'PICCO' {
     config: any,
   ) => Promise<void>
 
-  interface IScale {}
+  interface IScale { }
   class LinearScale implements IScale {
     constructor({ domain, range }?: { domain?: [number, number]; range?: [number, number] })
   }
