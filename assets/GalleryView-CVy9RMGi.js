@@ -1,0 +1,1 @@
+import{d as a,c as l,a as o,o as r}from"./index-D-_v8KcT.js";const p=a({__name:"GalleryView",props:{example:{}},setup(n){return(t,e)=>(r(),l("div",null,e[0]||(e[0]=[o("h1",null,"gallery",-1)])))}});export{p as default};
