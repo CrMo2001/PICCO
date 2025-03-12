@@ -3,9 +3,9 @@
     <!-- 左侧：Logo 和页面标签 -->
     <div class="left-section">
       <!-- Logo -->
-      <!-- <div class="logo">
-        <router-link to="/">Home</router-link>
-      </div> -->
+      <div class="logo">
+        <router-link to="/">PICCO</router-link>
+      </div>
 
       <!-- 页面标签 -->
       <ul class="nav-links">
@@ -32,6 +32,7 @@ const links = ref([
   { name: 'Home', path: '/' },
   // { name: 'Gallery', path: '/gallery' },
   { name: 'Documentation', path: '/documentation' },
+  { name: 'Tutorial', path: '/tutorial' },
   // { name: 'About', path: '/about' },
 ])
 

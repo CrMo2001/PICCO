@@ -35,18 +35,23 @@ onMounted(async () => {
       target: monaco.languages.typescript.ScriptTarget.ESNext,
       module: monaco.languages.typescript.ModuleKind.ESNext,
       allowNonTsExtensions: true,
-      allowJs: true,
-      checkJs: true,
+      // allowJs: true,
+      // checkJs: true,
       noEmit: true,
+      // strict: true,
       // typeRoots: ['node_modules/@types'],
     })
 
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-      diagnosticCodesToIgnore: [1375]
+      diagnosticCodesToIgnore: [1375],
     })
 
     editor = monaco.editor.create(editorContainer.value, {
-      value: '', // 初始代码
+      value: 
+`await PICCO.show([
+    // objects to show
+], container, { pictures });
+`, // 初始代码
       language: 'typescript', // 编程语言
       theme: 'vs',
       // theme: 'light', // 编辑器主题
@@ -56,27 +61,32 @@ onMounted(async () => {
 
     // 监听代码变化
     editor.onDidChangeModelContent(() => {
-      const tsCode = editor?.getValue()
-      if (!tsCode) return
-      const jsCode = typescript.transpileModule(tsCode, {
-        compilerOptions: { module: typescript.ModuleKind.CommonJS },
-      }).outputText
-      emit('code-change', jsCode)
+      emit('code-change')
     })
   }
 })
 
 function getCode() {
-  return editor?.getValue() || ''
+  const tsCode = editor?.getValue()
+  if (!tsCode) return ''
+  console.log('tsCode', tsCode)
+  const jsCode = typescript.transpileModule(tsCode, {
+    compilerOptions: {
+      module: typescript.ModuleKind.CommonJS,
+      target: typescript.ScriptTarget.ESNext,
+    },
+  }).outputText
+  console.log('jsCode', jsCode)
+  return jsCode
 }
 
 function setCode(code: string) {
   editor?.setValue(code)
-  emit('code-change', code)
+  emit('code-change')
 }
 
 type EmitType = {
-  (event: 'code-change', code: string): void
+  (event: 'code-change'): void
 }
 
 const emit = defineEmits<EmitType>()

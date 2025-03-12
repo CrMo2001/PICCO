@@ -36,10 +36,11 @@ export default defineConfig(({ mode }) => {
         targets: [
           {
             src: 'dist/index.html',
-            dest: 'dist/404.html',
+            dest: 'dist',
+            rename: '404.html',
           },
         ],
-        // hook: 'writeBundle',
+        hook: 'buildEnd',
       }),
     ],
     base: mode === 'development' ? '/' : '/PICCO/',
